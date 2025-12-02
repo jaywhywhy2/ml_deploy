@@ -1,27 +1,40 @@
 import streamlit as st
 import numpy as np
 import pickle
+import os
 
+base_path = os.path.dirname(__file__)
 
-#실행  streamlit run app_st.py
+#실행  streamlit run app_st_2.py
 
 #모델 로드 함수
 @st.cache_resource # 자원 캐싱 기능
-def load_model() : 
-    with open ('models/iris_model_lr.pkl','rb') as f :
+def load_model() :
+    model_path = os.path.join(base_path, "models", "iris_model_rfc.pkl") 
+    # with open ('models/iris_model_lr.pkl','rb') as f :
+    with open (model_path,'rb') as f :
                 model = pickle.load(f)
     return model
 model = load_model()
 
 
+# # 클래스별 이미지 경로 설정
+# def get_image_path(prediction):
+#     if prediction == 0:
+#         return 'static/setosa.jpg'
+#     elif prediction == 1:
+#         return 'static/versicolor.jpg'
+#     else:
+#         return 'static/virginica.jpg'
+
 # 클래스별 이미지 경로 설정
 def get_image_path(prediction):
     if prediction == 0:
-        return 'static/setosa.jpg'
+        return os.path.join(base_path,'static','setosa.jpg')
     elif prediction == 1:
-        return 'static/versicolor.jpg'
+        return os.path.join(base_path,'static','versicolor.jpg')
     else:
-        return 'static/virginica.jpg'
+        return os.path.join(base_path, 'static','virginica.jpg')
 
 
 # Streamlit 앱 구성
